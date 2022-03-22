@@ -14,8 +14,8 @@ export class AuthorController {
     }
 
     @Get()
-    getHello(): string {
-        return "Hello AuthorDto";
+   async getAuthors(){
+        return await this.authorService.fetchAuthors();
     }
 
     @Post()

@@ -9,6 +9,10 @@ export class AuthorServices {
         private crmServices: ICrmServices,
     ) {}
 
+    async fetchAuthors(){
+        return  await this.dataServices.authors.getAll();
+    }
+
 
     async createAuthor(author: Author): Promise<Author> {
         try {
