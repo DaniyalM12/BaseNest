@@ -1,0 +1,28 @@
+version: '3.3'
+services:
+  dev:
+    container_name: gorex-dev
+    image: daniyal-moeen/nestjs-dockerized
+    build:
+      context: .
+      dockerfile: Dockerfile
+#      command: npm run start:dev
+    ports:
+      - 8080:3000
+    env_file:
+      - .env
+    depends_on:
+      - mongodb
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+#    restart: unless-stopped
+  mongodb:
+    image : mongo:latest
+    container_name: mongodb
+    volumes:
+      - ./database:/data/db
+    ports:
+      - 27017:27017
+    restart: always
+
