@@ -2,7 +2,7 @@ import {Module} from '@nestjs/common';
 import {MongooseModule} from '@nestjs/mongoose';
 import {IDataServices} from '../../../core';
 
-import {Author, AuthorSchema, Book, BookSchema, Genre, GenreSchema,} from './models';
+import {Author, AuthorSchema, Book, BookSchema, Genre, GenreSchema,User,UserSchema} from './models';
 import {MongoDataServices} from './mongo-data-services.service';
 // const url = process.env.MONGO_URL || 'localhost';
 @Module({
@@ -11,8 +11,9 @@ import {MongoDataServices} from './mongo-data-services.service';
             {name: Author.name, schema: AuthorSchema},
             {name: Book.name, schema: BookSchema},
             {name: Genre.name, schema: GenreSchema},
+            {name: User.name, schema: UserSchema},
         ]),
-        MongooseModule.forRoot("mongodb://3453343058ea:27017/rest-api"),
+        MongooseModule.forRoot("mongodb://localhost:27017/rest-api"),
         // MongooseModule.forRoot(``),
     ],
     providers: [
