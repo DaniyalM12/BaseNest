@@ -1,30 +1,33 @@
 import {Module} from '@nestjs/common';
-import {AppController, AuthorController, BookController, GenreController} from './controllers';
+import {AppController, AuthorController, BookController, GenreController, GoogleAuthContoller} from './controllers';
 import {AppService} from './app.service';
 import {DataServicesModule} from './services/data-services/data-services.module';
 import {CrmServicesModule} from './services/crm-services/crm-services.module';
-import {AuthorServices, AuthorServicesModule} from './services/use-cases/author';
-import {BookFactoryService, BookServicesModule} from './services/use-cases/book';
-import {BookServices, GenreServices} from './services';
-import {GenreFactoryService, GenreServicesModule} from "./services/use-cases/genre";
+import {AuthorServicesModule} from './services/use-cases/author';
+import {BookServicesModule} from './services/use-cases/book';
+import {GenreServicesModule} from "./services/use-cases/genre";
+import {StrategyModule} from "./services/use-cases/passport";
+import {ConfigModule} from "@nestjs/config";
+import configuration from "../config/configuration";
 
 @Module({
-  imports: [DataServicesModule,
+  imports: [
+    ConfigModule.forRoot({load: [configuration]}),
+    DataServicesModule,
     CrmServicesModule,
     AuthorServicesModule,
     BookServicesModule,
-    GenreServicesModule],
+    GenreServicesModule,
+    StrategyModule],
   controllers: [
     AppController,
     AuthorController,
     GenreController,
-    BookController],
+    BookController,
+    GoogleAuthContoller],
   providers: [
-    AppService,
-    AuthorServices,
-    BookFactoryService,
-    BookServices,
-    GenreFactoryService, GenreServices],
+    AppService
+  ],
 })
 export class AppModule {
 }

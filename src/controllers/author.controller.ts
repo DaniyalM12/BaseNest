@@ -1,7 +1,6 @@
 import {Body, Controller, Get, Post} from '@nestjs/common';
 import {AuthorFactoryService, AuthorServices} from "../services/use-cases/author";
-import {CreateAuthorDto} from "../core/dtos";
-import {CreateAuthorResponseDto} from "../core/dtos";
+import {CreateAuthorDto, CreateAuthorResponseDto} from "../core/dtos";
 
 @Controller('api/author')
 export class AuthorController {
@@ -14,8 +13,8 @@ export class AuthorController {
     }
 
     @Get()
-    getHello(): string {
-        return "Hello AuthorDto";
+    async getAuthors() {
+        return await this.authorService.fetchAuthors();
     }
 
     @Post()
