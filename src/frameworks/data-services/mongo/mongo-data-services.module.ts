@@ -12,7 +12,7 @@ import {MongoDataServices} from './mongo-data-services.service';
             {name: Book.name, schema: BookSchema},
             {name: Genre.name, schema: GenreSchema},
         ]),
-        MongooseModule.forRoot("mongodb://3453343058ea:27017/rest-api"),
+        MongooseModule.forRoot("mongodb://localhost:27017/rest-api"),
         // MongooseModule.forRoot(``),
     ],
     providers: [
