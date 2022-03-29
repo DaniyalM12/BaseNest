@@ -11,18 +11,26 @@ export class LocalAuthService {
         this.userPool = new CognitoUserPool({
             UserPoolId: process.env.COGNITO_USER_POOL_ID,
             ClientId: process.env.COGNITO_CLIENT_ID,
-
         });
     }
 
 
     registerUser(registerUser: User) {
-        const {name, email, password} = registerUser;
+        const attributeList = [];
+        const {name, email, password,number,location,description,url,image} = registerUser;
+
+        attributeList.push(new CognitoUserAttribute({Name: 'email', Value: email}));    
+        attributeList.push(new CognitoUserAttribute({Name: 'phone_number', Value: number}));    
+        attributeList.push(new CognitoUserAttribute({Name: 'address', Value: location}));    
+        //attributeList.push(new CognitoUserAttribute({Name: 'description', Value: description?description:""}));    
+        attributeList.push(new CognitoUserAttribute({Name: 'website', Value: url?url:""}));    
+        attributeList.push(new CognitoUserAttribute({Name: 'picture', Value: image?image:""}));
+
         return new Promise((resolve, reject) => {
             return this.userPool.signUp(
                 name,
                 password,
-                [new CognitoUserAttribute({Name: 'email', Value: email})],
+                attributeList,
                 null,
                 (err, result) => {
                     if (!result) {

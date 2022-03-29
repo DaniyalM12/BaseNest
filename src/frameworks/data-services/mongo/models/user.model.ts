@@ -12,6 +12,23 @@ export class User {
 
     @Prop()
     password: string;
+
+    @Prop()
+    number: string;
+
+    @Prop()
+    location: string;
+
+    @Prop()
+    description: string;
+
+    @Prop()
+    url: string;
+
+    @Prop()
+    image: string;
+    
 }
+
 
 export const UserSchema = SchemaFactory.createForClass(User);

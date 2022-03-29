@@ -15,24 +15,37 @@ export class LocalAuthController {
     private localAuthService: LocalAuthService,
   ) {}
 
-  @Post('register')
-  async register(@Body() registerUserDto: CreateUserDto) {
+  async register(registerUserDto: CreateUserDto) {
     const baseResponseDto: BaseResponseDto<User> = new BaseResponseDto();
     try {
       const user = await this.localAuthFactoryService.createNewUser(
         registerUserDto,
       );
       const createdUser = await this.localAuthService.registerUser(user);
-
+      
       baseResponseDto.successExec(user);
     } catch (error) {
-      // report and log error      
+      // report and log error
       baseResponseDto.errorExec(error);
     }
 
     return baseResponseDto.disposeResponse();
   }
 
+  @Post('merchant')
+  async merchant(@Body() merchantUserDto: CreateUserDto) {
+    return await this.register(merchantUserDto);
+  }
+  @Post('dealer')
+  async dealer(@Body() dealerUserDto: CreateUserDto) {
+    return await this.register(dealerUserDto);
+  }
+  @Post('serviceprovider')
+  async serviceprovider(@Body() serviceProviderUserDto: CreateUserDto) {
+    return await this.register(serviceProviderUserDto);
+  }
+
+  // for testing purpose to check routes authentication working or not
   @Get('test')
   @UseGuards(AuthGuard('jwt'))
   getHello(): string {
@@ -47,7 +60,7 @@ export class LocalAuthController {
         authenticateRequest,
       );
       baseResponseDto.successExecWithoutType(payload);
-    } catch (e) {      
+    } catch (e) {
       baseResponseDto.errorExec(e);
     }
 
