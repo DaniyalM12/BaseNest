@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
 import {GoogleStrategyService} from "./google";
 import {GoogleAuthService} from "./google";
-
-
 @Module({
-    imports: [],
+    imports: [        
+    ],
     providers: [GoogleStrategyService,GoogleAuthService],
     exports: [GoogleStrategyService,GoogleAuthService],
 
