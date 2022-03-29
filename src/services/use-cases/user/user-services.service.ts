@@ -1,16 +1,16 @@
-import { Injectable } from '@nestjs/common';
-import { ICrmServices, IDataServices } from '../../../core/abstracts';
-import { User } from '../../../core/entities';
-import { JwtService } from '@nestjs/jwt';
+import {Injectable} from '@nestjs/common';
+import {ICrmServices, IDataServices} from '../../../core/abstracts';
+import {User} from '../../../core/entities';
+import {JwtService} from '@nestjs/jwt';
 
 @Injectable()
 export class UserServices {
   constructor(
-    private jwtService: JwtService,
-    private dataServices: IDataServices,
-    private crmServices: ICrmServices,
-   
-  ) {}
+      private jwtService: JwtService,
+      private dataServices: IDataServices,
+      private crmServices: ICrmServices,
+  ) {
+  }
 
   private readonly users = [
     {
@@ -28,9 +28,10 @@ export class UserServices {
   async fetchUsers() {
     return await this.dataServices.users.getAll();
   }
+
   async loginUsers(User: User): Promise<any> {
     let data = this.users.find(
-      (user) => user.email === User.email && user.password === User.password,
+        (user) => user.email === User.email && user.password === User.password,
     );
     if (!data) {
       return 'Data Not Founded';
@@ -39,7 +40,7 @@ export class UserServices {
       email: data.email,
       id: data.userId,
     });
-    return { data, access_token: jwt };
+    return {data, access_token: jwt};
   }
 
   async createUser(user: User): Promise<User> {

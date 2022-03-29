@@ -1,7 +1,11 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import {NestFactory} from '@nestjs/core';
+import {AppModule} from './app.module';
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
-import {Logger} from "@nestjs/common";
+import {MongoDataServicesModule} from "./frameworks/data-services/mongo/mongo-data-services.module";
+import {ConfigModule, ConfigService} from "@nestjs/config";
+require('dotenv').config({ path: `../.env` });
+
+
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,4 +19,5 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
   await app.listen(3000);
 }
+
 bootstrap();
