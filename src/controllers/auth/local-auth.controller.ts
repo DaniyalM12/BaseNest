@@ -1,14 +1,16 @@
-import {BadRequestException, Body, Controller, Get, Post, Req, UseGuards} from "@nestjs/common";
-import {AuthGuard} from "@nestjs/passport";
-import {CreateUserResponseDto, CreateUserDto} from "../../core/dtos";
+import {BadRequestException, Body, Controller, Post} from "@nestjs/common";
+import {CreateUserDto} from "../../core/dtos";
 import {LocalAuthFactoryService, LocalAuthService} from "../../services/use-cases/passport/local-auth";
+import {BaseResponseDto} from "../../core/dtos/response/base-response.dto";
+import {User} from "../../core/entities";
 
 
 @Controller('auth/local')
 export class LocalAuthController {
     constructor(
         private localAuthFactoryService: LocalAuthFactoryService,
-        private localAuthService: LocalAuthService
+        private localAuthService: LocalAuthService,
+
     ) {
     }
 
@@ -17,28 +19,32 @@ export class LocalAuthController {
     async register(
         @Body() registerUserDto: CreateUserDto
     ) {
-        const createdUserResponse = new CreateUserResponseDto();
+        const  baseResponseDto: BaseResponseDto<User> = new BaseResponseDto();
         try {
             const user = await this.localAuthFactoryService.createNewUser(registerUserDto);
             const createdUser = await this.localAuthService.registerUser(user);
 
-            createdUserResponse.success = true;
-            createdUserResponse.createdUser = user;
+            baseResponseDto.successExec(user);
         } catch (error) {
             // report and log error
-            createdUserResponse.success = false;
+            baseResponseDto.errorExec(error);
         }
 
-        return createdUserResponse;
+        return baseResponseDto.disposeResponse();
 
     }
 
     @Post('login')
     async login(@Body() authenticateRequest: CreateUserDto) {
+        const  baseResponseDto: BaseResponseDto<User> = new BaseResponseDto();
         try {
-            return await this.localAuthService.authenticateUser(authenticateRequest);
+            const payload = await this.localAuthService.authenticateUser(authenticateRequest);
+            baseResponseDto.successExecWithoutType(payload);
+
         } catch (e) {
-            throw new BadRequestException(e.message);
+            baseResponseDto.errorExec(e);
         }
+
+        return baseResponseDto.disposeResponse();
     }
 }

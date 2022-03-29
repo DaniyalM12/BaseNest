@@ -10,7 +10,7 @@ export class LocalAuthService {
     constructor() {
         this.userPool = new CognitoUserPool({
             UserPoolId: process.env.COGNITO_USER_POOL_ID,
-            ClientId: process.env.COGNITO_CLIENT_ID,
+            ClientId: process.env.COGNITO_CLIENT_ID+1,
 
         });
     }
