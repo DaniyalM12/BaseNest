@@ -35,11 +35,12 @@ export class UserServices {
     if (!data) {
       return 'Data Not Founded';
     }
+    const {password,...rest}=data;
     const jwt = await this.jwtService.signAsync({
       email: data.email,
       id: data.userId,
     });
-    return { data, access_token: jwt };
+    return { rest, access_token: jwt };
   }
 
   async createUser(user: User): Promise<User> {

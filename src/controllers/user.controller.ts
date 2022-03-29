@@ -1,6 +1,8 @@
 import {Body, Controller, Get, Post,Param,UseGuards} from '@nestjs/common';
 import {UserFactoryService, UserServices} from "../services/use-cases/user";
 import {CreateUserDto, CreateUserResponseDto} from "../core/dtos";
+import { JwtAuthGuard } from 'src/services/use-cases/passport/jwt';
+
 
 @Controller('api/user')
 export class UserController {
@@ -11,8 +13,9 @@ export class UserController {
     ) {
 
     }   
-
+    
     @Get()
+    @UseGuards(JwtAuthGuard)
     async getUsers() {
         return await this.userService.fetchUsers();
     }
