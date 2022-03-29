@@ -1,18 +1,12 @@
-import {
-  BadRequestException,
-  Body,
-  Controller,
-  Get,
-  Post,
-  Req,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { CreateUserResponseDto, CreateUserDto } from '../../core/dtos';
+import { CreateUserDto } from '../../core/dtos';
 import {
   LocalAuthFactoryService,
   LocalAuthService,
 } from '../../services/use-cases/passport/local-auth';
+import { BaseResponseDto } from '../../core/dtos/response/base-response.dto';
+import { User } from '../../core/entities';
 
 @Controller('auth/local')
 export class LocalAuthController {
@@ -23,22 +17,20 @@ export class LocalAuthController {
 
   @Post('register')
   async register(@Body() registerUserDto: CreateUserDto) {
-    const createdUserResponse = new CreateUserResponseDto();
+    const baseResponseDto: BaseResponseDto<User> = new BaseResponseDto();
     try {
       const user = await this.localAuthFactoryService.createNewUser(
         registerUserDto,
       );
       const createdUser = await this.localAuthService.registerUser(user);
 
-      createdUserResponse.success = true;
-      createdUserResponse.createdUser = user;
+      baseResponseDto.successExec(user);
     } catch (error) {
-      // report and log error
-      createdUserResponse.success = false;
-      createdUserResponse.error = error;
+      // report and log error      
+      baseResponseDto.errorExec(error);
     }
 
-    return createdUserResponse;
+    return baseResponseDto.disposeResponse();
   }
 
   @Get('test')
@@ -49,10 +41,16 @@ export class LocalAuthController {
 
   @Post('login')
   async login(@Body() authenticateRequest: CreateUserDto) {
+    const baseResponseDto: BaseResponseDto<User> = new BaseResponseDto();
     try {
-      return await this.localAuthService.authenticateUser(authenticateRequest);
-    } catch (e) {
-      throw new BadRequestException(e.message);
+      const payload = await this.localAuthService.authenticateUser(
+        authenticateRequest,
+      );
+      baseResponseDto.successExecWithoutType(payload);
+    } catch (e) {      
+      baseResponseDto.errorExec(e);
     }
+
+    return baseResponseDto.disposeResponse();
   }
 }
