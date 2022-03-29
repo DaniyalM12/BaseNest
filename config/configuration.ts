@@ -5,7 +5,7 @@ export default () => ({
     saltWorkFactor: 10,
     accessTokenTtl: "15m",
     refreshTokenTtl: "1y",
-    secret:"secret",
+    secret: "secret",
     privateKey: `-----BEGIN RSA PRIVATE KEY-----
     MIICWwIBAAKBgQCQNBc4IP2ewViqE+ZHbnqGoCZFyAUtrxKmO4k/boSvBisJH6BX
     01ajpafM7c7f5PO+wAcGYIxiTQsv9ml2/cgnB6MWG/YYKDCfbWLNbpvQxYlUCu0f
@@ -27,4 +27,11 @@ export default () => ({
     DB_PORT: 3306,
     DB_DIALECT: "mysql",
     DB_NAME: "laravel",
-});
+
+    userPoolId: process.env.COGNITO_USER_POOL_ID,
+    clientI: process.env.COGNITO_CLIENT_ID,
+    region: process.env.COGNITO_REGION,
+    authority: `https://cognito-idp.${process.env.COGNITO_REGION}.amazonaws.com/${process.env.COGNITO_USER_POOL_ID}`
+
+})
+;

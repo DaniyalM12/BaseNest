@@ -4,7 +4,7 @@ import {AuthGuard} from "@nestjs/passport";
 
 
 @Controller('auth')
-export class GoogleAuthContoller {
+export class GoogleAuthController {
     constructor(
         private googleStrategyService: GoogleStrategyService,
         private googleAuthService:GoogleAuthService
