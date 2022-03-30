@@ -8,6 +8,7 @@ import {
 import { BaseResponseDto } from '../../core/dtos/response/base-response.dto';
 import { User } from '../../core/entities';
 import { Roles } from '../../enums/roles.enums';
+import {ValidationPipe} from "../../pipes";
 
 @Controller('auth')
 export class LocalAuthController {
@@ -19,7 +20,7 @@ export class LocalAuthController {
   @Post('register/:user')
   async register(
     @Param('user') user: string,
-    @Body() registerUserDto: CreateUserDto,
+    @Body(new ValidationPipe()) registerUserDto: CreateUserDto,
   ) {
     const baseResponseDto: BaseResponseDto<User> = new BaseResponseDto();
     try {
@@ -64,7 +65,7 @@ export class LocalAuthController {
 
     return baseResponseDto.disposeResponse();
   }
- 
+
 
   // for testing purpose to check routes authentication working or not
   @Get('test')
