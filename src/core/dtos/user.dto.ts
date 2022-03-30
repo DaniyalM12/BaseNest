@@ -32,15 +32,15 @@ export class CreateUserDto {
 
     @ApiProperty()
     @IsString()
-    description: string;
+    description?: string;
 
     @ApiProperty()
     @IsString()
-    url: string;
+    url?: string;
 
     @ApiProperty()
     @IsString()
-    image: string;
+    image?: string;
 }
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
