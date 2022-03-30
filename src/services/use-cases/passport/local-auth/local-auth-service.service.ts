@@ -22,8 +22,8 @@ export class LocalAuthService {
         attributeList.push(new CognitoUserAttribute({Name: 'email', Value: email}));    
         attributeList.push(new CognitoUserAttribute({Name: 'phone_number', Value: number}));    
         attributeList.push(new CognitoUserAttribute({Name: 'address', Value: location}));    
-        attributeList.push(new CognitoUserAttribute({Name: 'description', Value: description?description:""}));    
-        attributeList.push(new CognitoUserAttribute({Name: 'type', Value: type}));    
+        attributeList.push(new CognitoUserAttribute({Name: 'custom:description', Value: description?description:""}));    
+        attributeList.push(new CognitoUserAttribute({Name: 'custom:type', Value: type}));    
         attributeList.push(new CognitoUserAttribute({Name: 'website', Value: url?url:""}));    
         attributeList.push(new CognitoUserAttribute({Name: 'picture', Value: image?image:""}));
 
