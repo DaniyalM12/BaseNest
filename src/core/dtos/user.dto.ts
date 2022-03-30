@@ -1,4 +1,4 @@
-import {IsEmail, IsEmpty, IsNotEmpty, IsString,IsPhoneNumber} from 'class-validator';
+import {IsEmail, IsEmpty, IsNotEmpty, IsString,IsPhoneNumber,} from 'class-validator';
 import {PartialType} from '@nestjs/mapped-types';
 import {ApiProperty} from "@nestjs/swagger";
 
