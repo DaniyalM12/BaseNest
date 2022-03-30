@@ -1,8 +1,7 @@
 import {Module} from '@nestjs/common';
 import {MongooseModule} from '@nestjs/mongoose';
 import {IDataServices} from '../../../core';
-
-import {Author, AuthorSchema, Book, BookSchema, Genre, GenreSchema, User, UserSchema} from './models';
+import {User, UserSchema} from './models';
 import {MongoDataServices} from './mongo-data-services.service';
 import {ConfigModule} from "@nestjs/config";
 
@@ -12,9 +11,6 @@ import {ConfigModule} from "@nestjs/config";
     imports: [
         ConfigModule.forRoot(),
         MongooseModule.forFeature([
-            {name: Author.name, schema: AuthorSchema},
-            {name: Book.name, schema: BookSchema},
-            {name: Genre.name, schema: GenreSchema},
             {name: User.name, schema: UserSchema},
         ]),
         MongooseModule.forRoot(process.env.MONGO_URL),

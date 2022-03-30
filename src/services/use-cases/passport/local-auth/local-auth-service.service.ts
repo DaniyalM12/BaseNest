@@ -34,10 +34,10 @@ export class LocalAuthService {
                 attributeList,
                 null,
                 (err, result) => {
-                    if (!result) {
+                    if (!result) {            
                         reject(err);
                     } else {
-                        resolve(result.user);
+                      resolve(result.user);
                     }
                 },
             );

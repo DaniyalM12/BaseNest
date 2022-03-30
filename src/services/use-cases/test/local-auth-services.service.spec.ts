@@ -4,6 +4,19 @@ require('dotenv').config();
 
 describe('LocalAuthService', () => {
   let service: LocalAuthService;
+  let data:any = undefined;
+  let type:string="dealer";
+  let user:any = {
+    email: 'ansarid036@gmail.com',
+    name: 'danish126',
+    password: 'Dasn@1234567',
+    number: '+923097904077',
+    location: 'dasdas',
+    address: 'string',
+    description: 'description',
+    website: 'string',
+    picture: 'string',
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -11,43 +24,37 @@ describe('LocalAuthService', () => {
     }).compile();
 
     service = module.get<LocalAuthService>(LocalAuthService);
+
+    try {
+      data = await service.registerUser(user, type);
+    } catch (Err) {
+      data = Err;
+    }
   });
 
-  it('should be register', async() => {
-    let user = {
-      email: 'ansarid036@gmail.com',
-      name: 'danishali1',
-      password: 'Dasn@1234567',
-      number: '+923097904077',
-      location: 'dasdas',
-      address: 'string',
-      description: 'description',
-      website: 'string',
-      picture: 'string',
-    };
-    //console.log(await localAuthService.registerUser(user));
-    let user=await service.registerUser(user,"dealer")
-    console.log(user);
-    
-    expect(user).toBe("User already exists");
+  it('should be register password must have uppercase characters', async () => {    
+    data.password="guess@123"
+    expect(data).toEqual({
+      code: 'InvalidPasswordException',
+      name: 'InvalidPasswordException',
+      message: 'Password did not conform with policy: Password must have uppercase characters',
+      password: "guess@123"
+    });
   });
-
-
-//   it('should be exception', () => {
-//     let localAuthService = new LocalAuthService();
-//     let user = {
-//       email: 'ansarid036@gmail.com',
-//       name: 'danishali1',
-//       password: 'D@1234567',
-//       number: '198237272',
-//       location: 'dasdas',
-//       address: '',
-//       description: 'description',
-//       website: '',
-//       picture: '',
-//     };
-//     expect(localAuthService.registerUser(user)).toThrowError();
-//   });
-
+  it('should be register password not long enough', async () => { 
+    data.password="g@123"
+    expect(data).toEqual({
+      code: 'InvalidPasswordException',
+      name: 'InvalidPasswordException',
+      message: 'Password did not conform with policy: Password not long enough'
+    });
+  });
+  it('should be register already', async () => { 
+    expect(data).toEqual({
+      code: 'UsernameExistsException',
+      name: 'UsernameExistsException',
+      message: 'User already exists',
+    });
+  });
 
 });
