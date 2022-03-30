@@ -17,17 +17,19 @@ describe('LocalAuthService', () => {
     let user = {
       email: 'ansarid036@gmail.com',
       name: 'danishali1',
-      password: 'D@1234567',
-      number: '198237272',
+      password: 'Dasn@1234567',
+      number: '+923097904077',
       location: 'dasdas',
-      address: '',
+      address: 'string',
       description: 'description',
-      website: '',
-      picture: '',
+      website: 'string',
+      picture: 'string',
     };
     //console.log(await localAuthService.registerUser(user));
+    let user=await service.registerUser(user,"dealer")
+    console.log(user);
     
-    expect(await service.registerUser(user)).toBe("Invalid phone number format.");
+    expect(user).toBe("User already exists");
   });
 
 

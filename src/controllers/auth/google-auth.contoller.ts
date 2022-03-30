@@ -3,7 +3,7 @@ import {GoogleAuthService, GoogleStrategyService} from "../../services/use-cases
 import {AuthGuard} from "@nestjs/passport";
 
 
-@Controller('auth')
+@Controller('authy')
 export class GoogleAuthController {
     constructor(
         private googleStrategyService: GoogleStrategyService,

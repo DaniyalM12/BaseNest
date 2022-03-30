@@ -6,7 +6,7 @@ import {omit} from "lodash";
 @Injectable()
 export class BaseResponseDto<T> {
     private success: boolean = false;
-    private error = null;
+    private error:Error = null;
     private data: T = null;
     private withoutType: any = null;
 
@@ -35,7 +35,7 @@ export class BaseResponseDto<T> {
             content: this.withoutType
         };
 
-        return (this.data) ? (this.withoutType) ? omit(response, "data") : response :  _.update(omit(response, "data"), ["error"], () => this.error);
+        return (this.data) ? response : (this.withoutType) ? omit(response, "data") :  _.update(omit(response, ["data","content"]), ["error"], () => (this.error)?this.error.message:this.error);
     }
 
 

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateUserDto } from '../../core/dtos';
 import {
@@ -7,23 +7,57 @@ import {
 } from '../../services/use-cases/passport/local-auth';
 import { BaseResponseDto } from '../../core/dtos/response/base-response.dto';
 import { User } from '../../core/entities';
+import { Roles } from '../../enums/roles.enums';
+import {ValidationPipe} from "../../pipes";
 
-@Controller('auth/local')
+@Controller('auth')
 export class LocalAuthController {
   constructor(
     private localAuthFactoryService: LocalAuthFactoryService,
     private localAuthService: LocalAuthService,
   ) {}
 
-  async register(registerUserDto: CreateUserDto) {
+  @Post('register/:user')
+  async register(
+    @Param('user') user: string,
+    @Body(new ValidationPipe()) registerUserDto: CreateUserDto,
+  ) {
     const baseResponseDto: BaseResponseDto<User> = new BaseResponseDto();
     try {
-      const user = await this.localAuthFactoryService.createNewUser(
-        registerUserDto,
-      );
-      const createdUser = await this.localAuthService.registerUser(user);
-      
-      baseResponseDto.successExec(user);
+      switch (user) {
+        case Roles.DEALER: {
+          const user = await this.localAuthFactoryService.createNewUser(
+            registerUserDto,
+          );
+          const createdUser = await this.localAuthService.registerUser(user,Roles.DEALER);
+          baseResponseDto.successExecWithoutType(user);
+
+          break;
+        }
+        case Roles.MERCHANT: {
+          //merchant will have seperate fields and Dto and validation logic
+          const user = await this.localAuthFactoryService.createNewUser(
+            registerUserDto,
+          );
+          const createdUser = await this.localAuthService.registerUser(user,Roles.MERCHANT);
+          baseResponseDto.successExecWithoutType(user);
+
+          break;
+        }
+        case Roles.SERVICE_PROVIDER: {
+          //SP will have seperate fields and Dto and validation logic
+          const user = await this.localAuthFactoryService.createNewUser(
+            registerUserDto,
+          );
+          const createdUser = await this.localAuthService.registerUser(user,Roles.SERVICE_PROVIDER);
+          baseResponseDto.successExecWithoutType(user);
+          break;
+        }
+        default: {
+          baseResponseDto.errorExec(new Error('Invalid Request'));
+          break;
+        }
+      }
     } catch (error) {
       // report and log error
       baseResponseDto.errorExec(error);
@@ -32,18 +66,6 @@ export class LocalAuthController {
     return baseResponseDto.disposeResponse();
   }
 
-  @Post('merchant')
-  async merchant(@Body() merchantUserDto: CreateUserDto) {
-    return await this.register(merchantUserDto);
-  }
-  @Post('dealer')
-  async dealer(@Body() dealerUserDto: CreateUserDto) {
-    return await this.register(dealerUserDto);
-  }
-  @Post('serviceprovider')
-  async serviceprovider(@Body() serviceProviderUserDto: CreateUserDto) {
-    return await this.register(serviceProviderUserDto);
-  }
 
   // for testing purpose to check routes authentication working or not
   @Get('test')

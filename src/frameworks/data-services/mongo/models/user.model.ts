@@ -27,6 +27,7 @@ export class User {
 
     @Prop()
     image: string;
+
     
 }
 
