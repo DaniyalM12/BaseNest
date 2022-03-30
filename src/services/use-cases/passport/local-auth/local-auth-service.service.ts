@@ -39,8 +39,6 @@ export class LocalAuthService {
                         resolve(result.user);
                     }
                 },
-
-
             );
         });
     }
