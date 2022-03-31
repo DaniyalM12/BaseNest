@@ -1,7 +1,6 @@
 import {Module} from "@nestjs/common";
 import {DataServicesModule} from "../../../data-services/data-services.module";
 import {CrmServicesModule} from "../../../crm-services/crm-services.module";
-import {JwtServicesModule} from "../jwt";
 import {LocalAuthFactoryService} from "./local-auth-factory.service";
 import {LocalAuthService} from "./local-auth-service.service";
 import {ConfigModule} from "@nestjs/config";
@@ -11,8 +10,8 @@ import { LocalJwtStrategy } from "./local-auth.strategy";
 @Module({
     imports: [
         ConfigModule.forRoot(),
-        PassportModule.register({ defaultStrategy: 'jwt' }),
-        DataServicesModule, CrmServicesModule, JwtServicesModule],
+        // PassportModule.register({ defaultStrategy: 'jwt' }),
+        DataServicesModule, CrmServicesModule],
     providers: [LocalAuthFactoryService, LocalAuthService,LocalJwtStrategy],
     exports: [LocalAuthFactoryService, LocalAuthService,LocalJwtStrategy],
 })

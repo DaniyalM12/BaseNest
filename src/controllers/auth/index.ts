@@ -1,1 +1,1 @@
-export * from './google-auth.contoller'
+export * from './local-auth.controller'

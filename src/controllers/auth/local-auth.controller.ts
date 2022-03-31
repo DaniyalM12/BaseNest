@@ -1,7 +1,7 @@
 import {Body, Controller, Get, Param, Post, UseGuards} from '@nestjs/common';
 import {AuthGuard} from '@nestjs/passport';
 import {CreateUserDto} from '../../core/dtos';
-import {LocalAuthFactoryService, LocalAuthService,} from '../../services/use-cases/passport/local-auth';
+import {LocalAuthFactoryService, LocalAuthService,} from '../../services/use-cases/auth/local-auth';
 import {BaseResponseDto} from '../../core/dtos/response/base-response.dto';
 import {User} from '../../core/entities';
 import {Roles} from '../../enums/roles.enums';
