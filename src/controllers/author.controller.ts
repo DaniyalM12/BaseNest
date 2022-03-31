@@ -6,32 +6,32 @@ import {CreateAuthorDto, CreateAuthorResponseDto} from "../core/dtos";
 export class AuthorController {
 
     constructor(
-        private authorService: AuthorServices,
-        private authorFactoryService: AuthorFactoryService,
+        // private authorService: AuthorServices,
+        // private authorFactoryService: AuthorFactoryService,
     ) {
 
     }
 
-    @Get()
-    async getAuthors() {
-        return await this.authorService.fetchAuthors();
-    }
-
-    @Post()
-    async createAuthor(@Body() authorDto: CreateAuthorDto) {
-        const createAuthorResponse = new CreateAuthorResponseDto();
-        try {
-            const author = this.authorFactoryService.createNewAuthor(authorDto);
-            const createdAuthor = await this.authorService.createAuthor(author);
-
-            createAuthorResponse.success = true;
-            createAuthorResponse.createdBook = createdAuthor;
-        } catch (error) {
-            // report and log error
-            createAuthorResponse.success = false;
-        }
-
-        return createAuthorResponse;
-    }
+    // @Get()
+    // async getAuthors() {
+    //     return await this.authorService.fetchAuthors();
+    // }
+    //
+    // @Post()
+    // async createAuthor(@Body() authorDto: CreateAuthorDto) {
+    //     const createAuthorResponse = new CreateAuthorResponseDto();
+    //     try {
+    //         const author = this.authorFactoryService.createNewAuthor(authorDto);
+    //         const createdAuthor = await this.authorService.createAuthor(author);
+    //
+    //         createAuthorResponse.success = true;
+    //         createAuthorResponse.createdBook = createdAuthor;
+    //     } catch (error) {
+    //         // report and log error
+    //         createAuthorResponse.success = false;
+    //     }
+    //
+    //     return createAuthorResponse;
+    // }
 
 }

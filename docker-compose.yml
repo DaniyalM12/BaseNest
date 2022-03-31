@@ -1,5 +1,14 @@
 version: '3.3'
 services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    volumes:
+      - ./database:/data/db
+    ports:
+      - 27017:27017
+    restart: always
+
   dev:
     container_name: gorex-dev
     image: daniyal-moeen/nestjs-dockerized
@@ -17,12 +26,4 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules
 #    restart: unless-stopped
-  mongodb:
-    image : mongo:latest
-    container_name: mongodb
-    volumes:
-      - ./database:/data/db
-    ports:
-      - 27017:27017
-    restart: always
 
