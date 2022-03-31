@@ -1,33 +1,47 @@
-import {Injectable} from "@nestjs/common";
-import {CreateUserDto, UpdateUserDto} from "../../../../core/dtos";
-import {User} from "../../../../core/entities";
+import { Injectable } from "@nestjs/common";
+import { CreateRegisterDto, UpdateRegisterDto, CreateLoginDto, UpdateLoginDto } from "../../../../core/dtos";
+import { User, Login } from "../../../../core/entities";
 
 
 @Injectable()
 export class LocalAuthFactoryService {
-    createNewUser(createUserDto: CreateUserDto) {
+    createNewUser(createRegisterDto: CreateRegisterDto) {
         const newUser = new User();
-        newUser.email = createUserDto.email;
-        newUser.name = createUserDto.name;
-        newUser.password = createUserDto.password;
-        newUser.number = createUserDto.number;
-        newUser.location = createUserDto.location;
-        newUser.description = createUserDto.description;
-        newUser.url = createUserDto.url;
-        newUser.image = createUserDto.image;
+        newUser.email = createRegisterDto.email;
+        newUser.name = createRegisterDto.name;
+        newUser.password = createRegisterDto.password;
+        newUser.number = createRegisterDto.number;
+        newUser.location = createRegisterDto.location;
+        newUser.description = createRegisterDto.description;
+        newUser.url = createRegisterDto.url;
+        newUser.image = createRegisterDto.image;
         return newUser;
     }
 
-    updateUser(updateUserDto: UpdateUserDto) {
+    updateUser(updateRegisterDto: UpdateRegisterDto) {
         const newUser = new User();
-        newUser.email = updateUserDto.email;
-        newUser.name = updateUserDto.name;
-        newUser.password = updateUserDto.password;
-        newUser.number = updateUserDto.number;
-        newUser.location = updateUserDto.location;
-        newUser.description = updateUserDto.description;
-        newUser.url = updateUserDto.url;
-        newUser.image = updateUserDto.image;
+        newUser.email = updateRegisterDto.email;
+        newUser.name = updateRegisterDto.name;
+        newUser.password = updateRegisterDto.password;
+        newUser.number = updateRegisterDto.number;
+        newUser.location = updateRegisterDto.location;
+        newUser.description = updateRegisterDto.description;
+        newUser.url = updateRegisterDto.url;
+        newUser.image = updateRegisterDto.image;
         return newUser;
+    }
+
+    LoginUser(createLoginDto: CreateLoginDto) {
+        const loginUser = new Login();
+        loginUser.name = createLoginDto.name;
+        loginUser.password = createLoginDto.password;
+        return loginUser;
+    }
+
+    UpdateLoginUser(updateLoginDto: UpdateLoginDto) {
+        const loginUser = new Login();
+        loginUser.name = updateLoginDto.name;
+        loginUser.password = updateLoginDto.password;
+        return loginUser;
     }
 }

@@ -1,7 +1,7 @@
-import {Injectable} from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 
-import {AuthenticationDetails, CognitoUser, CognitoUserAttribute, CognitoUserPool,} from 'amazon-cognito-identity-js';
-import {User} from "../../../../core/entities";
+import { AuthenticationDetails, CognitoUser, CognitoUserAttribute, CognitoUserPool, } from 'amazon-cognito-identity-js';
+import { User, Login } from "../../../../core/entities";
 
 @Injectable()
 export class LocalAuthService {
@@ -15,17 +15,17 @@ export class LocalAuthService {
     }
 
 
-    registerUser(registerUser: User,type:string) {
+    registerUser(registerUser: User, type: string) {
         const attributeList = [];
-        const {name, email, password,number,location,description,url,image} = registerUser;
+        const { name, email, password, number, location, description, url, image } = registerUser;
 
-        attributeList.push(new CognitoUserAttribute({Name: 'email', Value: email}));    
-        attributeList.push(new CognitoUserAttribute({Name: 'phone_number', Value: number}));    
-        attributeList.push(new CognitoUserAttribute({Name: 'address', Value: location}));    
-        attributeList.push(new CognitoUserAttribute({Name: 'custom:description', Value: description?description:""}));    
-        attributeList.push(new CognitoUserAttribute({Name: 'custom:type', Value: type}));    
-        attributeList.push(new CognitoUserAttribute({Name: 'website', Value: url?url:""}));    
-        attributeList.push(new CognitoUserAttribute({Name: 'picture', Value: image?image:""}));
+        attributeList.push(new CognitoUserAttribute({ Name: 'email', Value: email }));
+        attributeList.push(new CognitoUserAttribute({ Name: 'phone_number', Value: number }));
+        attributeList.push(new CognitoUserAttribute({ Name: 'address', Value: location }));
+        attributeList.push(new CognitoUserAttribute({ Name: 'custom:description', Value: description ? description : "" }));
+        attributeList.push(new CognitoUserAttribute({ Name: 'custom:type', Value: type }));
+        attributeList.push(new CognitoUserAttribute({ Name: 'website', Value: url ? url : "" }));
+        attributeList.push(new CognitoUserAttribute({ Name: 'picture', Value: image ? image : "" }));
 
         return new Promise((resolve, reject) => {
             return this.userPool.signUp(
@@ -34,10 +34,10 @@ export class LocalAuthService {
                 attributeList,
                 null,
                 (err, result) => {
-                    if (!result) {            
+                    if (!result) {
                         reject(err);
                     } else {
-                      resolve(result.user);
+                        resolve(result.user);
                     }
                 },
             );
@@ -45,8 +45,8 @@ export class LocalAuthService {
     }
 
 
-    authenticateUser(user: User) {
-        const {name, password} = user;
+    authenticateUser(user: Login) {
+        const { name, password } = user;
 
         const authenticationDetails = new AuthenticationDetails({
             Username: name,

@@ -1,6 +1,6 @@
 import {Body, Controller, Get, Post,Param,UseGuards} from '@nestjs/common';
 import {UserFactoryService, UserServices} from "../services/use-cases/user";
-import {CreateUserDto, CreateUserResponseDto} from "../core/dtos";
+import {CreateRegisterDto, CreateUserResponseDto} from "../core/dtos";
 
 @Controller('api/user')
 export class UserController {
@@ -19,15 +19,15 @@ export class UserController {
 
    
     @Post('login')
-    async loginUser(@Body() userDto: CreateUserDto) {
-        return await this.userService.loginUsers(userDto);
+    async loginUser(@Body() registerDto: CreateRegisterDto) {
+        return await this.userService.loginUsers(registerDto);
     }
 
     @Post()
-    async createUser(@Body() userDto: CreateUserDto) {
+    async createUser(@Body() registerDto: CreateRegisterDto) {
         const createUserResponse = new CreateUserResponseDto();
         try {
-            const user = this.userFactoryService.createNewUser(userDto);
+            const user = this.userFactoryService.createNewUser(registerDto);
             const createdUser = await this.userService.createUser(user);
 
             createUserResponse.success = true;
